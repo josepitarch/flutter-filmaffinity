@@ -7,6 +7,7 @@ class JustwatchItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // TODO: change size of asset
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 10),
       child: ClipRRect(
@@ -14,7 +15,7 @@ class JustwatchItem extends StatelessWidget {
         child: Image.asset(
           'assets/justwatch/$asset.jpg',
           fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => const Icon(Icons.error),
+          errorBuilder: (_, __, ___) => Container(),
         ),
       ),
     );

@@ -2,6 +2,7 @@
   "home": "Inicio",
   "search": "Buscar",
   "favorites": "Favoritos",
+  "no_favorites": "No hay favoritos",
   "top": "Top",
   "search_film": "Buscar película",
   "see_more": "Ver más",
@@ -10,8 +11,15 @@
   "rent": "Alquiler",
   "buy": "Compra",
   "cast": "Reparto",
-  "synopsis": "Sinópsis",
+  "synopsis": "Sinopsis",
   "watch_now": "Ver ahora",
   "no_platforms": "No hay plataformas disponibles",
-  "reviews": "Críticas"
+  "reviews": "Críticas",
+  "search_movie": "Buscar película",
+  "no_results": "No hay resultados",
+  "delete_all_searchers": "Eliminar búsquedas recientes",
+  "title_favorite_movies_page": "Tus favoritos",
+  "title_top_movies_page": "Si no sabes qué ver",
+  "delete_filters": "Eliminar filtros",
+  "apply_filters": "Aplicar filtros"
 }

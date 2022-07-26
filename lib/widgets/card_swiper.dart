@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:card_swiper/card_swiper.dart';
 import 'package:scrapper_filmaffinity/models/section.dart';
 import 'package:scrapper_filmaffinity/providers/homepage_provider.dart';
-import 'package:scrapper_filmaffinity/services/homepageService.dart';
+import 'package:scrapper_filmaffinity/services/metadata_movie_service.dart';
 import 'package:scrapper_filmaffinity/widgets/loading.dart';
 
 import '../models/movie.dart';
@@ -16,7 +16,7 @@ class CardSwiper extends StatelessWidget {
     final HomepageProvider homepageProvider =
         Provider.of<HomepageProvider>(context);
 
-    final List<Section> homepageModel = homepageProvider.homepage;
+    final List<Section> homepageModel = homepageProvider.sections;
 
     Widget body = homepageModel.isNotEmpty
         ? Center(child: _TitleSection(sections: homepageModel))
@@ -124,12 +124,16 @@ class _MovieCard extends StatelessWidget {
                 Navigator.pushNamed(context, 'details',
                     arguments: openedMovies[films.elementAt(index).id]);
               } else {
-                HomepageService()
+                MetadataMovieService()
                     .getMetadataMovie(films.elementAt(index).id)
                     .then((value) {
                   homepageProvider.openedMovies
                       .addAll({films.elementAt(index).id: value});
-                  Navigator.pushNamed(context, 'details', arguments: value);
+                  Map<String, dynamic> arguments = {
+                    'movie': value,
+                    'isFavorite': false,
+                  };
+                  Navigator.pushNamed(context, 'details', arguments: arguments);
                 });
               }
             },

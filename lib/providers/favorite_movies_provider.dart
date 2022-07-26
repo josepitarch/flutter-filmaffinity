@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:scrapper_filmaffinity/database/favorite_movie_database.dart';
 import 'package:scrapper_filmaffinity/models/favorite_movie.dart';
+import 'package:scrapper_filmaffinity/models/movie.dart';
 
 class FavoriteMovieProvider extends ChangeNotifier {
   List<FavoriteMovie> favoriteMovies = [];
@@ -8,16 +9,33 @@ class FavoriteMovieProvider extends ChangeNotifier {
 
   FavoriteMovieProvider();
 
-  addFavoriteMovie(FavoriteMovie favoriteMovie) {
+  addFavoriteMovie(Movie movie) async {
+    FavoriteMovie favoriteMovie = FavoriteMovie(
+        id: movie.id,
+        poster: movie.poster,
+        title: movie.title,
+        director: movie.director ?? '');
+
+    bool response = await FavoriteMovieDatabase.insertFavoriteMovie(favoriteMovie);
     favoriteMovies.add(favoriteMovie);
-    FavoriteMovieDatabase.insertFavoriteMovie(favoriteMovie).then((_) {
+    notifyListeners();
+    
+    return response;
+  }
+
+  deleteFavoriteMovie(String id) {
+    favoriteMovies.removeWhere((movie) => movie.id == id);
+
+    FavoriteMovieDatabase.deleteFavoriteMovie(id).then((_) {
       notifyListeners();
     });
   }
 
   getFavoriteMovies() async {
-    favoriteMovies = await FavoriteMovieDatabase.retrieveFavoriteMovies();
-    favoriteMovies.isNotEmpty ? isEmpty = false : isEmpty = true;
-    notifyListeners();
+    FavoriteMovieDatabase.retrieveFavoriteMovies().then((value) => {
+          favoriteMovies = value,
+          isEmpty = value.isEmpty,
+          notifyListeners(),
+        });
   }
 }

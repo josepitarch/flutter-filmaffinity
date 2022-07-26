@@ -5,12 +5,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert' as json;
 
 import 'package:scrapper_filmaffinity/models/section.dart';
-import 'package:scrapper_filmaffinity/models/movie.dart';
 
 class HomepageService {
   final url = dotenv.env['URL']!;
   final timeout = dotenv.env['TIMEOUT']!;
-  
 
   Future<List<Section>> getHomepageMovies() async {
     List<Section> homepageMovies = [];
@@ -28,12 +26,5 @@ class HomepageService {
     }
 
     return homepageMovies;
-  }
-
-  Future<Movie> getMetadataMovie(String id) async {
-    var request = Uri.http(url, '/api/metadata/film', {'id': id});
-    var response = await http.get(request);
-
-    return Movie.fromJson(response.body);
   }
 }

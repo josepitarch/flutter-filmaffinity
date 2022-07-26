@@ -6,12 +6,12 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 
 import 'package:scrapper_filmaffinity/models/section.dart';
-import 'package:scrapper_filmaffinity/services/homepageService.dart';
+import 'package:scrapper_filmaffinity/services/homepage_service.dart';
 
 import '../models/movie.dart';
 
 class HomepageProvider extends ChangeNotifier {
-  List<Section> homepage = [];
+  List<Section> sections = [];
   bool existsError = false;
   Map<String, Movie> openedMovies = {};
   final logger = Logger();
@@ -22,7 +22,7 @@ class HomepageProvider extends ChangeNotifier {
 
   getHomepageMovies() async {
     try {
-      homepage = await HomepageService().getHomepageMovies();
+      sections = await HomepageService().getHomepageMovies();
     } on SocketException catch (e) {
       existsError = true;
       logger.e(e.toString());
@@ -32,5 +32,11 @@ class HomepageProvider extends ChangeNotifier {
     } finally {
       notifyListeners();
     }
+  }
+
+  Future<void> refresh() async {
+    sections.clear();
+    notifyListeners();
+    getHomepageMovies();
   }
 }
